@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-924330300 source:c:\users\administrator\desktop\2024-graphicsa\week08\week08-2_glm_gundam_opencv_texture\glm.cpp
+924330300 source:c:\users\administrator\desktop\2024-graphicsa\week08\week08-3_glm_gundam_opencv_texture_lighting\glm.cpp
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -7,7 +7,7 @@
 	<assert.h>
 	"glm.h"
 
-924330300 c:\users\administrator\desktop\2024-graphicsa\week08\week08-2_glm_gundam_opencv_texture\glm.h
+924330300 c:\users\administrator\desktop\2024-graphicsa\week08\week08-3_glm_gundam_opencv_texture_lighting\glm.h
 	<GL/glut.h>
 
 1426320928 c:\users\administrator\desktop\freeglut\include\gl\glut.h
@@ -24,7 +24,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1712823078 source:c:\users\administrator\desktop\2024-graphicsa\week08\week08-2_glm_gundam_opencv_texture\main.cpp
+1712824359 source:c:\users\administrator\desktop\2024-graphicsa\week08\week08-3_glm_gundam_opencv_texture_lighting\main.cpp
 	<opencv/highgui.h>
 	<opencv/cv.h>
 	<GL/glut.h>
