@@ -25,6 +25,12 @@ void display()
         glRotatef(angle++,0,0,1);///(2)旋轉角度
         glTranslatef(0.15,0,0);///(1)把旋轉中心放到正中間
         myArm();
+        glPushMatrix();
+            glTranslatef(0.15,0,0);///(3)放到肩膀上
+            glRotatef(angle++,0,0,1);///(2)旋轉角度
+            glTranslatef(0.15,0,0);///(1)把旋轉中心放到正中間
+            myArm();
+        glPopMatrix();
     glPopMatrix();
 
 	glutSwapBuffers();
@@ -33,7 +39,7 @@ int main(int argc, char*argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-	glutCreateWindow("week10-4");
+	glutCreateWindow("week10-5");
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
 	glutMainLoop();
