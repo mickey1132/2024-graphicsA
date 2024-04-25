@@ -51,7 +51,7 @@ int main(int argc, char*argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-	glutCreateWindow("week10-5");
+	glutCreateWindow("week10-6");
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
 	glutMainLoop();

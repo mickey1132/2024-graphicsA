@@ -35,12 +35,12 @@ void display()
 
     glPushMatrix();///左邊
         glTranslatef(-0.3,0.3,0);///(3)放到肩膀上
-        glRotatef(angle,0,0,1);///(2)旋轉角度
+        glRotatef(-angle,0,0,1);///(2)旋轉角度
         glTranslatef(-0.15,0,0);///(1)把旋轉中心放到正中間
         myArm();///左手臂
         glPushMatrix();
             glTranslatef(-0.15,0,0);///(3)放到肩膀上
-            glRotatef(angle,0,0,1);///(2)旋轉角度
+            glRotatef(-angle,0,0,1);///(2)旋轉角度
             glTranslatef(-0.15,0,0);///(1)把旋轉中心放到正中間
             myArm();///左上臂
         glPopMatrix();
