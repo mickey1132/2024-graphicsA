@@ -19,6 +19,8 @@ int myTexture(char * filename)
 #include <GL/glut.h>
 #include "glm.h"
 GLMmodel*pmodel =NULL;
+GLMmodel*HandA =NULL;
+GLMmodel*HandB =NULL;
 void drawmodel(void)
 {
     if (!pmodel) {
@@ -31,6 +33,30 @@ void drawmodel(void)
 
     glmDraw(pmodel, GLM_SMOOTH | GLM_TEXTURE);
 }
+void drawHandA(void)
+{
+    if (!HandA) {
+	HandA = glmReadOBJ("data/HandA.obj");
+	if (!HandA) exit(0);
+	glmUnitize(HandA);
+	glmFacetNormals(HandA);
+	glmVertexNormals(HandA, 90.0);
+    }
+
+    glmDraw(HandA, GLM_SMOOTH | GLM_TEXTURE);
+}
+void drawHandB(void)
+{
+    if (!HandB) {
+	HandB = glmReadOBJ("data/HandB.obj");
+	if (!HandB) exit(0);
+	glmUnitize(HandB);
+	glmFacetNormals(HandB);
+	glmVertexNormals(HandB, 90.0);
+    }
+
+    glmDraw(HandB, GLM_SMOOTH | GLM_TEXTURE);
+}
 #include <stdio.h>
 float angle=0;
 void display()
@@ -38,7 +64,7 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glPushMatrix();
         glRotatef(angle++,0,1,0);
-        drawmodel();
+        drawHandA();
     glPopMatrix();
     glutSwapBuffers();
 }
@@ -55,7 +81,7 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-    glutCreateWindow("week09 gundam");
+    glutCreateWindow("week11 gundam");
     glutDisplayFunc(display);
     glutIdleFunc(display);
     myTexture("data/Diffuse.jpg");
