@@ -10,7 +10,7 @@ void myBody()
 void myArm()
 {
     glPushMatrix();
-        glColor3f(0,1,0);///ºñ¦âªº
+        glColor3f(0,1,0);///�C��
         glScalef(1,0.4,0.4);///Arm
         glutWireCube(0.3);
 	glPopMatrix();

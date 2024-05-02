@@ -1,157 +1,64 @@
-/*
- * GLUT Shapes Demo
- *
- * Written by Nigel Stewart November 2003
- *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
- */
-
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
+#include <opencv/highgui.h> ///使用 OpenCV 2.1 比較簡單, 只要用 High GUI 即可
+#include <opencv/cv.h>
 #include <GL/glut.h>
-#endif
-
-#include <stdlib.h>
-
-static int slices = 16;
-static int stacks = 16;
-
-/* GLUT callback Handlers */
-
-static void resize(int width, int height)
+int myTexture(char * filename)
 {
-    const float ar = (float) width / (float) height;
-
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
+    IplImage * img = cvLoadImage(filename); ///OpenCV讀圖
+    cvCvtColor(img,img, CV_BGR2RGB); ///OpenCV轉色彩 (需要cv.h)
+    glEnable(GL_TEXTURE_2D); ///1. 開啟貼圖功能
+    GLuint id; ///準備一個 unsigned int 整數, 叫 貼圖ID
+    glGenTextures(1, &id); /// 產生Generate 貼圖ID
+    glBindTexture(GL_TEXTURE_2D, id); ///綁定bind 貼圖ID
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); /// 貼圖參數, 超過包裝的範圖T, 就重覆貼圖
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); /// 貼圖參數, 超過包裝的範圖S, 就重覆貼圖
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); /// 貼圖參數, 放大時的內插, 用最近點
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); /// 貼圖參數, 縮小時的內插, 用最近點
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->width, img->height, 0, GL_RGB, GL_UNSIGNED_BYTE, img->imageData);
+    return id;
 }
-
-static void display(void)
+#include <GL/glut.h>
+#include "glm.h"
+GLMmodel*pmodel =NULL;
+void drawmodel(void)
 {
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,0,0);
-
-    glPushMatrix();
-        glTranslated(-2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(-2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
-    glutSwapBuffers();
-}
-
-
-static void key(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
-        case 27 :
-        case 'q':
-            exit(0);
-            break;
-
-        case '+':
-            slices++;
-            stacks++;
-            break;
-
-        case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
-            break;
+    if (!pmodel) {
+	pmodel = glmReadOBJ("data/Gundam.obj");
+	if (!pmodel) exit(0);
+	glmUnitize(pmodel);
+	glmFacetNormals(pmodel);
+	glmVertexNormals(pmodel, 90.0);
     }
 
-    glutPostRedisplay();
+    glmDraw(pmodel, GLM_SMOOTH | GLM_TEXTURE);
 }
-
-static void idle(void)
+#include <stdio.h>
+float angle=0;
+void display()
 {
-    glutPostRedisplay();
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glPushMatrix();
+        glRotatef(angle++,0,1,0);
+        drawmodel();
+    glPopMatrix();
+    glutSwapBuffers();
 }
-
 const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
+const GLfloat light_position[] = { 2.0f, 5.0f, -5.0f, 0.0f };
 
 const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
 const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
 const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat high_shininess[] = { 100.0f };
-
-/* Program entry point */
-
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(640,480);
-    glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-    glutCreateWindow("GLUT Shapes");
-
-    glutReshapeFunc(resize);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("week09 gundam");
     glutDisplayFunc(display);
-    glutKeyboardFunc(key);
-    glutIdleFunc(idle);
-
-    glClearColor(1,1,1,1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glutIdleFunc(display);
+    myTexture("data/Diffuse.jpg");
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -172,6 +79,4 @@ int main(int argc, char *argv[])
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
     glutMainLoop();
-
-    return EXIT_SUCCESS;
 }
