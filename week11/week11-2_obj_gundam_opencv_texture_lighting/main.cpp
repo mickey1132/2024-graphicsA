@@ -58,10 +58,21 @@ void drawHandB(void)
     glmDraw(HandB, GLM_SMOOTH | GLM_TEXTURE);
 }
 #include <stdio.h>
+void myBody()
+{
+    glPushMatrix();
+        glColor3f(1,0,0);
+        glutSolidCube(0.6);///Body
+	glPopMatrix();
+}
 float angle=0;
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_TEXTURE_2D);
+    myBody();
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1,1,1);
     glPushMatrix();
         glRotatef(angle++,0,1,0);
         drawHandA();
