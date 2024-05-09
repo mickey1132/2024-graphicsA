@@ -79,13 +79,16 @@ void myBody()
         glutSolidCube(0.6);///Body
 	glPopMatrix();
 }
-float angle=0;
+float angle=0, da=1;
 void display()
 {
+    angle+=da;
+    if(angle>90)da=-1;
+    if(angle<0)da=+1;
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
     ///myBody();
-    glutSolidSphere(0.1,30,30);
+    ///glutSolidSphere(0.1,30,30);
     glEnable(GL_TEXTURE_2D);
     glColor3f(1,1,1);
 
@@ -94,9 +97,9 @@ void display()
     glPopMatrix();
 
     glPushMatrix();
-        glTranslatef(-0.05,-0.1,0);
-        glRotatef(angle++,1,0,0);
-        glTranslatef(0,-0.2,0);
+        glTranslatef(-0.02,-0.09,0);
+        glRotatef(angle,1,0,0);
+        glTranslatef(0,-0.21,0);
         drawlowerA();
     glPopMatrix();
 
