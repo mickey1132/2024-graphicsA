@@ -83,8 +83,6 @@ float angle=0, da=1;
 void motion(int x,int y)
 {
     angle=y;
-
-
 }
 void display()
 {
@@ -92,19 +90,21 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
     ///myBody();
-    ///glutSolidSphere(0.1,30,30);
+    glutSolidSphere(0.1,30,30);
     glEnable(GL_TEXTURE_2D);
     glColor3f(1,1,1);
 
     glPushMatrix();
+        ///glTranslatef();
+        glRotatef(angle,0,0,1);
+        glTranslatef(0,-0.07,0);
         drawupperA();
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslatef(-0.02,-0.09,0);
-        glRotatef(angle,1,0,0);
-        glTranslatef(0,-0.21,0);
-        drawlowerA();
+        glPushMatrix();
+            glTranslatef(-0.02,-0.09,0);
+            //glRotatef(angle,1,0,0);
+            glTranslatef(0,-0.21,0);
+            drawlowerA();
+        glPopMatrix();
     glPopMatrix();
 
     glutSwapBuffers();
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-    glutCreateWindow("week11 gundam");
+    glutCreateWindow("week12 gundam");
     glutDisplayFunc(display);
     glutMotionFunc(motion);
     glutIdleFunc(display);
