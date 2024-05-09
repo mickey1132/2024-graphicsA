@@ -21,17 +21,31 @@ int myTexture(char * filename)
 GLMmodel*pmodel =NULL;
 GLMmodel*HandA =NULL;
 GLMmodel*HandB =NULL;
-void drawmodel(void)
+GLMmodel*upperA =NULL;
+GLMmodel*lowerA =NULL;
+void drawupperA(void)
 {
-    if (!pmodel) {
-	pmodel = glmReadOBJ("data/Gundam.obj");
-	if (!pmodel) exit(0);
-	glmUnitize(pmodel);
-	glmFacetNormals(pmodel);
-	glmVertexNormals(pmodel, 90.0);
+    if (!upperA) {
+	upperA = glmReadOBJ("data/upperA.obj");
+	if (!upperA) exit(0);
+	glmUnitize(upperA);
+	glmFacetNormals(upperA);
+	glmVertexNormals(upperA, 90.0);
     }
 
-    glmDraw(pmodel, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(upperA, GLM_SMOOTH | GLM_TEXTURE);
+}
+void drawlowerA(void)
+{
+    if (!lowerA) {
+	lowerA = glmReadOBJ("data/lowerA.obj");
+	if (!lowerA) exit(0);
+	glmUnitize(lowerA);
+	glmFacetNormals(lowerA);
+	glmVertexNormals(lowerA, 90.0);
+    }
+
+    glmDraw(lowerA, GLM_SMOOTH | GLM_TEXTURE);
 }
 void drawHandA(void)
 {
@@ -70,25 +84,22 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
-    myBody();
+    ///myBody();
     glutSolidSphere(0.1,30,30);
     glEnable(GL_TEXTURE_2D);
     glColor3f(1,1,1);
+
     glPushMatrix();
-        ///glRotatef(angle++,0,1,0);
-        glTranslatef(-0.3,0.3,0);
-        glRotatef(angle++,0,0,1);
-        glTranslatef(0,-0.3,0);
-        drawHandA();
+        drawupperA();
     glPopMatrix();
 
     glPushMatrix();
-        ///glRotatef(angle++,0,1,0);
-        glTranslatef(0.3,0.3,0);
-        glRotatef(-angle++,0,0,1);
-        glTranslatef(0,-0.3,0);
-        drawHandB();
+        glTranslatef(-0.05,-0.1,0);
+        glRotatef(angle++,1,0,0);
+        glTranslatef(0,-0.2,0);
+        drawlowerA();
     glPopMatrix();
+
     glutSwapBuffers();
 }
 const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
