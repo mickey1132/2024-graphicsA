@@ -70,11 +70,13 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
-    myBody();
+    //myBody();
+    glutSolidSphere(0.1,30,30);
     glEnable(GL_TEXTURE_2D);
     glColor3f(1,1,1);
     glPushMatrix();
-        glRotatef(angle++,0,1,0);
+        //glRotatef(angle++,0,1,0);
+        glTranslatef(0,-0.3,0);
         drawHandA();
     glPopMatrix();
     glutSwapBuffers();
