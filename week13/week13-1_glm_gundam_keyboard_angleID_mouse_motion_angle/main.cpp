@@ -82,10 +82,18 @@ void myBody()
 ///float angle=0, da=1;
 float angle[20]={};
 int angleID=0;
+int oldX=0,oldY=0;
 void motion(int x,int y)
 {
-    angle[angleID]=y;
+    angle[angleID]+=y-oldY;
+    oldX=x;
+    oldY=y;
     glutPostRedisplay();
+}
+void mouse(int botton,int state,int x,int y)
+{
+    oldX=x;
+    oldY=y;
 }
 void keyboard(unsigned char key, int x ,int y)
 {
@@ -134,6 +142,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("week13-1 gundam");
     glutDisplayFunc(display);
+    glutMouseFunc(mouse);
     glutIdleFunc(display);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
