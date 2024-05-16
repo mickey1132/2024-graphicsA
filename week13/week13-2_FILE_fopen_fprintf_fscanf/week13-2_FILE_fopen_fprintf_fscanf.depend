@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1715839576 source:c:\users\administrator\desktop\2024-graphicsa\week13\week13-1_glm_gundam_keyboard_angleid_mouse_motion_angle\glm.cpp
+1715839576 source:c:\users\administrator\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\glm.cpp
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -7,7 +7,7 @@
 	<assert.h>
 	"glm.h"
 
-1715839576 c:\users\administrator\desktop\2024-graphicsa\week13\week13-1_glm_gundam_keyboard_angleid_mouse_motion_angle\glm.h
+1715839576 c:\users\administrator\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\glm.h
 	<GL/glut.h>
 
 1426320928 c:\users\administrator\desktop\freeglut\include\gl\glut.h
@@ -24,7 +24,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1715839576 source:c:\users\administrator\desktop\2024-graphicsa\week13\week13-1_glm_gundam_keyboard_angleid_mouse_motion_angle\main.cpp
+1715846717 source:c:\users\administrator\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\main.cpp
 	<opencv/highgui.h>
 	<opencv/cv.h>
 	<GL/glut.h>
