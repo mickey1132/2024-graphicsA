@@ -32,3 +32,36 @@
 	"glm.h"
 	<stdio.h>
 
+1716217202 source:c:\users\mic\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1716217202 c:\users\mic\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\glm.h
+	<GL/glut.h>
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\glut.h
+	"freeglut_std.h"
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1716221387 source:c:\users\mic\desktop\2024-graphicsa\week13\week13-2_file_fopen_fprintf_fscanf\main.cpp
+	<opencv/highgui.h>
+	<opencv/cv.h>
+	<GL/glut.h>
+	<GL/glut.h>
+	"glm.h"
+	<stdio.h>
+

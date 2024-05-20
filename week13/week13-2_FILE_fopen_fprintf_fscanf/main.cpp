@@ -27,62 +27,62 @@ GLMmodel*Body =NULL;
 void drawBody(void)
 {
     if (!Body) {
-	Body = glmReadOBJ("data/Body.obj");
+	Body = glmReadOBJ("data2/body.obj");
 	if (!Body) exit(0);
 	glmUnitize(Body);
 	glmFacetNormals(Body);
 	glmVertexNormals(Body, 90.0);
     }
 
-    glmDraw(Body, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(Body, GLM_SMOOTH | GLM_MATERIAL);
 }
 void drawupperA(void)
 {
     if (!upperA) {
-	upperA = glmReadOBJ("data/upperA.obj");
+	upperA = glmReadOBJ("data2/upperA.obj");
 	if (!upperA) exit(0);
 	glmUnitize(upperA);
 	glmFacetNormals(upperA);
 	glmVertexNormals(upperA, 90.0);
     }
 
-    glmDraw(upperA, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(upperA, GLM_SMOOTH | GLM_MATERIAL);
 }
 void drawlowerA(void)
 {
     if (!lowerA) {
-	lowerA = glmReadOBJ("data/lowerA.obj");
+	lowerA = glmReadOBJ("data2/lowerA.obj");
 	if (!lowerA) exit(0);
 	glmUnitize(lowerA);
 	glmFacetNormals(lowerA);
 	glmVertexNormals(lowerA, 90.0);
     }
 
-    glmDraw(lowerA, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(lowerA, GLM_SMOOTH | GLM_MATERIAL);
 }
 void drawHandA(void)
 {
     if (!HandA) {
-	HandA = glmReadOBJ("data/HandA.obj");
+	HandA = glmReadOBJ("data2/HandA.obj");
 	if (!HandA) exit(0);
 	glmUnitize(HandA);
 	glmFacetNormals(HandA);
 	glmVertexNormals(HandA, 90.0);
     }
 
-    glmDraw(HandA, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(HandA, GLM_SMOOTH | GLM_MATERIAL);
 }
 void drawHandB(void)
 {
     if (!HandB) {
-	HandB = glmReadOBJ("data/HandB.obj");
+	HandB = glmReadOBJ("data2/HandB.obj");
 	if (!HandB) exit(0);
 	glmUnitize(HandB);
 	glmFacetNormals(HandB);
 	glmVertexNormals(HandB, 90.0);
     }
 
-    glmDraw(HandB, GLM_SMOOTH | GLM_TEXTURE);
+    glmDraw(HandB, GLM_SMOOTH | GLM_MATERIAL);
 }
 #include <stdio.h>
 void myBody()
@@ -134,25 +134,26 @@ void keyboard(unsigned char key, int x ,int y)
 void display()
 {
 
+    glClearColor(0.3,0.3,0.3,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
 
     glPushMatrix();
         glRotatef(angle[0],0,1,0);
         drawBody();
-        ///glutSolidSphere(0.1,30,30);
         glEnable(GL_TEXTURE_2D);
         glColor3f(1,1,1);
 
         glPushMatrix();
-            glTranslatef(-0.15,0,0);
+            glTranslatef(-0.215,0.08,0);
             glRotatef(angle[1],0,0,1);
             glRotatef(angle[2],1,0,0);
             glTranslatef(0,-0.07,0);
             drawupperA();
             glPushMatrix();
-                glTranslatef(-0.02,-0.09,0);
-                glRotatef(angle[3],1,0,0);
+                glScalef(0.8,0.8,0.8);
+                glTranslatef(-0.02,-0.23,0);
+                glRotatef(angle[3],0,0,1);
                 glTranslatef(0,-0.21,0);
                 drawlowerA();
             glPopMatrix();
