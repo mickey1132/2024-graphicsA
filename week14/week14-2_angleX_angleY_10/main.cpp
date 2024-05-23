@@ -109,7 +109,7 @@ void timer(int t)
     if(t%20==0)
     {
         if(fin==NULL)fin=fopen("angle.txt","r");
-        for(int i=0;i<20;i++)
+        for(int i=0;i<10;i++)
         {
             oldAngleX[i]=newAngleX[i];
             oldAngleY[i]=newAngleY[i];
@@ -118,7 +118,7 @@ void timer(int t)
         }
     }
     float alpha=(t%20)/20.0;
-    for(int i=0;i<20;i++)
+    for(int i=0;i<10;i++)
     {
         angleX[i]=newAngleX[i]*alpha+oldAngleX[i]*(1-alpha);
         angleY[i]=newAngleY[i]*alpha+oldAngleY[i]*(1-alpha);
