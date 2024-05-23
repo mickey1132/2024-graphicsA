@@ -81,14 +81,16 @@ void drawlowerA(void)
     glPopMatrix();
 }
 ///float angle = 0, da = 1; ///加這行, 讓它轉動
-float angle[20] = {};
+///float angle[10] = {};
+float angleX[10]={},angleY[10]={};
 int angleID = 0;
 int oldX = 0, oldY = 0;
 #include <stdio.h>
 FILE * fin = NULL;
 FILE * fout = NULL;
 void motion(int x, int y){ ///加入mouse motion 對應的函式
-    angle[angleID] += y - oldY; /// 當我們的 mouse motion 時, y座標的對應角度
+    angleX[angleID] += y - oldY;/// 當我們的 mouse motion 時, y座標的對應角度
+    angleY[angleID] -= x - oldX;
     oldX = x;
     oldY = y;
     glutPostRedisplay();
@@ -99,7 +101,8 @@ void mouse(int button, int state, int x, int y) {
     oldX = x;
     oldY = y;
 }
-float oldAngle[20]={},newAngle[20]={};
+float oldAngleX[10]={},newAngleX[10]={};
+float oldAngleY[10]={},newAngleY[10]={};
 void timer(int t)
 {
     glutTimerFunc(50,timer,t+1);
@@ -108,14 +111,17 @@ void timer(int t)
         if(fin==NULL)fin=fopen("angle.txt","r");
         for(int i=0;i<20;i++)
         {
-            oldAngle[i]=newAngle[i];
-            fscanf(fin,"%f",&newAngle[i]);
+            oldAngleX[i]=newAngleX[i];
+            oldAngleY[i]=newAngleY[i];
+            fscanf(fin,"%f",&newAngleX[i]);
+            fscanf(fin,"%f",&newAngleY[i]);
         }
     }
     float alpha=(t%20)/20.0;
     for(int i=0;i<20;i++)
     {
-        angle[i]=newAngle[i]*alpha+oldAngle[i]*(1-alpha);
+        angleX[i]=newAngleX[i]*alpha+oldAngleX[i]*(1-alpha);
+        angleY[i]=newAngleY[i]*alpha+oldAngleY[i]*(1-alpha);
     }
     glutPostRedisplay();
 }
@@ -130,7 +136,8 @@ void keyboard(unsigned char key, int x, int y) {
 		if(fin==NULL) fin = fopen("angle.txt", "r");
 		for(int i=0; i<20; i++)
 		{
-			fscanf(fin, "%f", & angle[i] );
+			fscanf(fin, "%f", & angleX[i] );
+			fscanf(fin, "%f", & angleY[i] );
 		}
 		glutPostRedisplay();
 	}
@@ -139,8 +146,10 @@ void keyboard(unsigned char key, int x, int y) {
         if(fout==NULL) fout = fopen("angle.txt", "w+");
         for(int i=0; i<20; i++)
         {
-            printf("%.1f ", angle[i] );
-            fprintf(fout, "%.1f ", angle[i] );
+            printf("%.1f ", angleX[i] );
+            printf("%.1f ", angleY[i] );
+            fprintf(fout, "%.1f ", angleX[i] );
+            fprintf(fout, "%.1f ", angleY[i] );
         }
         printf("\n");
         fprintf(fout, "\n");
@@ -162,7 +171,8 @@ void display()
     ///glDisable(GL_TEXTURE_2D);
 
     glPushMatrix();
-        glRotatef(angle[0], 0, 1, 0);
+        glRotatef(angleX[0], 1, 0, 0);
+        glRotatef(angleY[0], 0, 1, 0);
         drawBody(); ///這裡
         ///glutSolidSphere(0.1, 30, 30); ///加一個圓球體代表轉動中心
         glEnable(GL_TEXTURE_2D);
@@ -170,13 +180,14 @@ void display()
 
         glPushMatrix();
             glTranslatef(-0.1, 0, 0); ///這裡掛在肩上
-            glRotatef(angle[1], 0, 0, 1);
-            glRotatef(angle[2], 1, 0, 0);
+            glRotatef(angleX[1], 1, 0, 0);
+            glRotatef(angleY[1], 0, 0, 1);
             glTranslatef(0, -0.07, 0);
             drawupperA();
             glPushMatrix(); ///(0)
                 glTranslatef(-0.02, -0.09, 0); ///(3)再掛到上手臂的位置
-                glRotatef(angle[3], 1, 0, 0); ///(2)x軸轉
+                glRotatef(angleX[2], 1, 0, 0);
+                glRotatef(angleY[2], 0, 0, 1); ///(2)x軸轉
                 glTranslatef(0, -0.21, 0); ///(1)
                 drawlowerA();
             glPopMatrix(); ///(0)
