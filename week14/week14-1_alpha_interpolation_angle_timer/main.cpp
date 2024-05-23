@@ -92,28 +92,59 @@ void motion(int x, int y){ ///加入mouse motion 對應的函式
     oldX = x;
     oldY = y;
     glutPostRedisplay();
-    if(fout==NULL) fout = fopen("angle.txt", "w+");
-    for(int i=0; i<20; i++){
-        printf("%.1f ", angle[i] );
-        fprintf(fout, "%.1f ", angle[i] );
-    }
-    printf("\n");
-    fprintf(fout, "\n");
+    ///把原本在motion裡存檔的程式碼剪下來貼到keyboard()裡面
 }
 
 void mouse(int button, int state, int x, int y) {
     oldX = x;
     oldY = y;
 }
-
+float oldAngle[20]={},newAngle[20]={};
+void timer(int t)
+{
+    glutTimerFunc(50,timer,t+1);
+    if(t%20==0)
+    {
+        if(fin==NULL)fin=fopen("angle.txt","r");
+        for(int i=0;i<20;i++)
+        {
+            oldAngle[i]=newAngle[i];
+            fscanf(fin,"%f",&newAngle[i]);
+        }
+    }
+    float alpha=(t%20)/20.0;
+    for(int i=0;i<20;i++)
+    {
+        angle[i]=newAngle[i]*alpha+oldAngle[i]*(1-alpha);
+    }
+    glutPostRedisplay();
+}
 void keyboard(unsigned char key, int x, int y) {
-	if(key=='r') {
+
+	if(key=='p' || key=='P')
+    {
+        glutTimerFunc(0,timer,0);
+    }
+	if(key=='r' || key=='R')
+    {
 		if(fin==NULL) fin = fopen("angle.txt", "r");
-		for(int i=0; i<20; i++){
+		for(int i=0; i<20; i++)
+		{
 			fscanf(fin, "%f", & angle[i] );
 		}
 		glutPostRedisplay();
 	}
+	else if(key=='S' || key=='s')
+    {
+        if(fout==NULL) fout = fopen("angle.txt", "w+");
+        for(int i=0; i<20; i++)
+        {
+            printf("%.1f ", angle[i] );
+            fprintf(fout, "%.1f ", angle[i] );
+        }
+        printf("\n");
+        fprintf(fout, "\n");
+    }
     if(key=='0') angleID = 0;
     if(key=='1') angleID = 1;
     if(key=='2') angleID = 2;
@@ -157,7 +188,11 @@ const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
 const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
 const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat high_shininess[] = { 100.0f };
-
+///void timer(int t)
+///{
+///    glutTimerFunc(1000,timer,t+1);
+///    printf("現在起床:%d\n",t);
+///}
 int main(int argc, char*argv[])
 {
     glutInit(&argc, argv);
@@ -168,6 +203,7 @@ int main(int argc, char*argv[])
     glutMouseFunc(mouse); ///大象放到冰箱
     glutMotionFunc(motion); ///滑鼠控制
     glutKeyboardFunc(keyboard); ///week13-1新加
+///    glutTimerFunc(0,timer,0);
 
     myTexture("data/Diffuse.jpg");
 

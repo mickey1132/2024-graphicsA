@@ -123,7 +123,7 @@ void keyboard(unsigned char key, int x ,int y)
     if(key=='1') angleID=1;
     if(key=='2') angleID=2;
     if(key=='3') angleID=3;
-    if(key=='r' or key=='R'){
+    if(key=='r' || key=='R'){
         if(fin==NULL)fin=fopen("angle.txt","r");
         for(int i=0;i<20;i++){
             fscanf(fin,"%f",&angle[i]);
