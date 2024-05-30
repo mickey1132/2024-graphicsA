@@ -1,4 +1,3 @@
-#include <windows.h>
 /*
  * GLUT Shapes Demo
  *
@@ -98,21 +97,6 @@ static void key(unsigned char key, int x, int y)
     switch (key)
     {
         case 27 :
-        case '1':
-            PlaySound("Do.wav",NULL,SND_ASYNC);
-            break;
-        case '2':
-            PlaySound("Re.wav",NULL,SND_ASYNC);
-            break;
-        case '3':
-            PlaySound("Mi.wav",NULL,SND_ASYNC);
-            break;
-        case '4':
-            PlaySound("Fa.wav",NULL,SND_ASYNC);
-            break;
-        case '5':
-            PlaySound("Sol.wav",NULL,SND_ASYNC);
-            break;
         case 'q':
             exit(0);
             break;
@@ -153,7 +137,6 @@ const GLfloat high_shininess[] = { 100.0f };
 
 int main(int argc, char *argv[])
 {
-    PlaySound("mykbeat.wav",NULL,SND_ASYNC);
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
