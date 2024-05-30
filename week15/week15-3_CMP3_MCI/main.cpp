@@ -1,3 +1,5 @@
+#include "CMP3_MCI.h"
+CMP3_MCI myMP3;
 /*
  * GLUT Shapes Demo
  *
@@ -137,6 +139,8 @@ const GLfloat high_shininess[] = { 100.0f };
 
 int main(int argc, char *argv[])
 {
+    myMP3.Load("song.mp3");
+    myMP3.Play();
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
