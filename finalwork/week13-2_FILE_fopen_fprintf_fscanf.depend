@@ -65,3 +65,22 @@
 	"glm.h"
 	<stdio.h>
 
+1718085426 source:c:\users\mic\desktop\2024-graphicsa\finalwork\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1718085426 c:\users\mic\desktop\2024-graphicsa\finalwork\glm.h
+	<GL/glut.h>
+
+1718085426 source:c:\users\mic\desktop\2024-graphicsa\finalwork\main.cpp
+	<opencv/highgui.h>
+	<opencv/cv.h>
+	<GL/glut.h>
+	<GL/glut.h>
+	"glm.h"
+	<stdio.h>
+

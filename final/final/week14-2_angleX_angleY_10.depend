@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1718085426 source:c:\users\mic\desktop\2024-graphicsa\final\final\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1718090363 c:\users\mic\desktop\2024-graphicsa\final\final\glm.h
+	<GL/glut.h>
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\glut.h
+	"freeglut_std.h"
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1718090865 source:c:\users\mic\desktop\2024-graphicsa\final\final\main.cpp
+	<opencv/highgui.h>
+	<opencv/cv.h>
+	<GL/glut.h>
+	<GL/glut.h>
+	"glm.h"
+	<stdio.h>
+
