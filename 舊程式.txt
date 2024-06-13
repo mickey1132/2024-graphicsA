@@ -1,9 +1,8 @@
-///•˝ß‚ week08-1_glm_gundam ™∫µ{¶°∂K§W®”
-///µ•§@§U, ≠n¶A•[∂Kπœ™∫ 18¶Êµ{¶°
-#include <opencv/highgui.h> ///®œ•Œ OpenCV 2.1 §Ò∏˚¬≤≥Ê, •u≠n•Œ High GUI ßY•i
+///ÂÖàÊää week08-1_glm_gundam ÁöÑÁ®ãÂºèË≤º‰∏ä‰æÜ
+///Á≠â‰∏Ä‰∏ã, Ë¶ÅÂÜçÂä†Ë≤ºÂúñÁöÑ 18Ë°åÁ®ãÂºè
+#include <opencv/highgui.h> ///‰ΩøÁî® OpenCV 2.1 ÊØîËºÉÁ∞°ÂñÆ, Âè™Ë¶ÅÁî® High GUI Âç≥ÂèØ
 #include <opencv/cv.h>
 #include <GL/glut.h>
-float teapotX=0, teapotY=0; ///jsyeh
 int myTexture(char * filename)
 {
     IplImage * img = cvLoadImage(filename);
@@ -38,7 +37,7 @@ void drawBody(void)
     if (!Body) {
         Body = glmReadOBJ("data2/body.obj");
         if (!Body) exit(0);
-        glmScale(Body, 1/7.0);///glmUnitize(leglowerA);
+        glmUnitize(Body);
         glmFacetNormals(Body);
         glmVertexNormals(Body, 90.0);
     }
@@ -51,7 +50,7 @@ void drawHead(void)
     if (!Head) {
         Head = glmReadOBJ("data2/head.obj");
         if (!Head) exit(0);
-        glmScale(Head, 1/7.0);
+        glmUnitize(Head);
         glmFacetNormals(Head);
         glmVertexNormals(Head, 90.0);
     }
@@ -64,7 +63,7 @@ void drawupperA(void)
     if (!upperA) {
         upperA = glmReadOBJ("data2/upperA.obj");
         if (!upperA) exit(0);
-        glmScale(upperA, 1/7.0);
+        glmUnitize(upperA);
         glmFacetNormals(upperA);
         glmVertexNormals(upperA, 90.0);
     }
@@ -77,7 +76,7 @@ void drawlowerA(void)
     if (!lowerA) {
         lowerA = glmReadOBJ("data2/lowerA.obj");
         if (!lowerA) exit(0);
-        glmScale(lowerA, 1/7.0);
+        glmUnitize(lowerA);
         glmFacetNormals(lowerA);
         glmVertexNormals(lowerA, 90.0);
     }
@@ -90,7 +89,7 @@ void drawupperB(void)
     if (!upperB) {
         upperB = glmReadOBJ("data2/upperB.obj");
         if (!upperB) exit(0);
-        glmScale(upperB, 1/7.0);
+        glmUnitize(upperB);
         glmFacetNormals(upperB);
         glmVertexNormals(upperB, 90.0);
     }
@@ -103,7 +102,7 @@ void drawlowerB(void)
     if (!lowerB) {
         lowerB = glmReadOBJ("data2/lowerB.obj");
         if (!lowerB) exit(0);
-        glmScale(lowerB, 1/7.0);
+        glmUnitize(lowerB);
         glmFacetNormals(lowerB);
         glmVertexNormals(lowerB, 90.0);
     }
@@ -116,7 +115,7 @@ void drawlegupperA(void)
     if (!legupperA) {
         legupperA = glmReadOBJ("data2/legupperA.obj");
         if (!legupperA) exit(0);
-        glmScale(legupperA, 1/7.0);///glmUnitize(leglowerA);
+        glmUnitize(legupperA);
         glmFacetNormals(legupperA);
         glmVertexNormals(legupperA, 90.0);
     }
@@ -129,7 +128,7 @@ void drawlegupperB(void)
     if (!legupperB) {
         legupperB = glmReadOBJ("data2/legupperB.obj");
         if (!legupperB) exit(0);
-        glmScale(legupperB, 1/7.0);
+        glmUnitize(legupperB);
         glmFacetNormals(legupperB);
         glmVertexNormals(legupperB, 90.0);
     }
@@ -142,7 +141,7 @@ void drawleglowerA(void)
     if (!leglowerA) {
         leglowerA = glmReadOBJ("data2/leglowerA.obj");
         if (!leglowerA) exit(0);
-        glmScale(leglowerA, 1/7.0);///glmUnitize(leglowerA);
+        glmUnitize(leglowerA);
         glmFacetNormals(leglowerA);
         glmVertexNormals(leglowerA, 90.0);
     }
@@ -155,12 +154,20 @@ void drawleglowerB(void)
     if (!leglowerB) {
         leglowerB = glmReadOBJ("data2/leglowerB.obj");
         if (!leglowerB) exit(0);
-        glmScale(leglowerB, 1/7.0);
+        glmUnitize(leglowerB);
         glmFacetNormals(leglowerB);
         glmVertexNormals(leglowerB, 90.0);
     }
 
     glmDraw(leglowerB, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void myBody()
+{
+    glPushMatrix();
+        glColor3f(1,0,0);
+        glutSolidCube(0.6);
+    glPopMatrix();
 }
 float angleX[10]={},angleY[10]={};
 int angleID = 0;
@@ -168,15 +175,9 @@ int oldX = 0, oldY = 0;
 #include <stdio.h>
 FILE * fin = NULL;
 FILE * fout = NULL;
-void motion(int x, int y){ ///jsyeh
-    if(0){
-        teapotX += (x - oldX) / 150.0;
-        teapotY -= (y - oldY) / 150.0;
-        printf("glTranslatef(%.3f, %.3f, 0);\n", teapotX, teapotY);
-    }else{
-        angleX[angleID] += y - oldY;
-        angleY[angleID] -= x - oldX;
-    }
+void motion(int x, int y){
+    angleX[angleID] += y - oldY;
+    angleY[angleID] -= x - oldX;
     oldX = x;
     oldY = y;
     glutPostRedisplay();
@@ -256,78 +257,87 @@ void display()
     glClearColor(0.3,0.3,0.3,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
-    glPushMatrix();
-        ///glRotatef(-90,0,1,0);
-        glTranslatef(0, -0.8, 0);
-        glutSolidSphere(0.02, 30, 30);
-        glPushMatrix();
-            glTranslatef(0,0,0);
-            glRotatef(angleY[0],0,1,0);
-            drawBody();
-            ///º“´¨™∫•™§‚A
-            glPushMatrix();
-                glTranslatef(0.000, 1.040,-0.067);
-                ///glRotatef();
-                glTranslatef(0.000, -1.047,0.060);
-                drawHead();
-            glPopMatrix();
-            glPushMatrix();
-                glTranslatef(-0.133, 0.947, -0.073);
-                glRotatef(-angleX[3], 1, 0, 0);
-                glRotatef(angleY[3], 0, 0, 1);
-                glTranslatef(0.140, -0.940, 0.073);
-                drawupperA();
-                glPushMatrix();
-                    glTranslatef(-0.207, 0.740, -0.073);
-                    glRotatef(-angleX[4], 1, 0, 0);
-                glRotatef(angleY[4], 0, 0, 1);
-                    glTranslatef(0.207, -0.713, 0.073);
-                    drawlowerA();
-                glPopMatrix();
-            glPopMatrix();
-            ///º“´¨™∫•k§‚B
-            glPushMatrix();
-                glTranslatef(0.147, 0.947, -0.073);
-                glRotatef(-angleX[5], 1, 0, 0);
-                glRotatef(angleY[5], 0, 0, 1);
-                glTranslatef(-0.147, -0.940, 0.073);
-                drawupperB();
-                glPushMatrix();
-                    glTranslatef(0.207, 0.707, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
-                    glTranslatef(-0.207, -0.707, 0.073);
-                    drawlowerB();
-                glPopMatrix();
-            glPopMatrix();
-            ///º“´¨™∫•k∏}A
-            glPushMatrix();
-                glTranslatef(0.033, 0.720, -0.073);
-                glRotatef(angleX[3], 0, 0, 1);
-                glTranslatef(-0.033, -0.720, 0.073);
-                drawlegupperA();
-                glPushMatrix();
-                    glTranslatef(0.100, 0.327, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
-                    glTranslatef(0.100, -0.313, 0.087);
-                    drawleglowerA();
-                glPopMatrix();
-            glPopMatrix();
 
+    glPushMatrix();
+        glRotatef(angleX[0], 1, 0, 0);
+        glRotatef(angleY[0], 0, 1, 0);
+        glRotatef(180,0,1,0);
+        drawBody();
+
+        glPushMatrix();
+            glScalef(1.4,1.4,1.4);
+            glTranslatef(0 , 0.27 , 0.1);
+            glRotatef(angleX[1],0,1,0);
+            glTranslatef(0 , 0 , 0);
+            drawHead();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(-0.215, 0.05, 0.03);
+            glRotatef(angleX[2], 1, 0, 0);
+            glRotatef(angleY[2], 0, 0, 1);
+            glTranslatef(0, -0.07, 0);
+            drawupperA();
+            glPushMatrix();
+                glScalef(0.8, 0.8, 0.8);
+                glTranslatef(-0.02, -0.23, -0.03);
+                glRotatef(angleX[3], 1, 0, 0);
+                glRotatef(angleY[3], 0, 0, 1);
+                glTranslatef(0, -0.21, 0);
+                drawlowerA();
+            glPopMatrix();
+        glPopMatrix();
+
+        glPushMatrix();
+            glTranslatef(0.215, 0.05, 0.03);
+            glRotatef(angleX[4], 1, 0, 0);
+            glRotatef(angleY[4], 0, 0, 1);
+            glTranslatef(0, -0.07, 0);
+            drawupperB();
+            glPushMatrix();
+                glScalef(0.8, 0.8, 0.8);
+                glTranslatef(0.02, -0.23, -0.03);
+                glRotatef(angleX[5], 1, 0, 0);
+                glRotatef(angleY[5], 0, 0, 1);
+                glTranslatef(0, -0.21, 0);
+                drawlowerB();
+            glPopMatrix();
+        glPopMatrix();
+
+        glPushMatrix();
+            glScalef(0.8,0.8,0.8);
+            glTranslatef(0, -0.5, 0);
+            glRotatef(angleX[6], 1, 0, 0);
+            glRotatef(angleY[6], 0, 0, 1);
+            glTranslatef(0, 0, 0);
+            drawlegupperA();
+            glPushMatrix();
+                glScalef(0, 0, 0);
+                glTranslatef(0, 0, 0);
+                glRotatef(angleX[7], 1, 0, 0);
+                glRotatef(angleY[7], 0, 0, 1);
+                glTranslatef(0, 0, 0);
+                drawleglowerA();
+            glPopMatrix();
+        glPopMatrix();
             /*glPushMatrix();
-                glTranslatef(0.033, 0.720, -0.093);
-                glRotatef(angleX[3], 0, 0, 1);
-                glTranslatef(-0.033, -0.713, 0.073);
-                drawlegupperB();
-                glPushMatrix();
-                    glTranslatef(0.087, 0.340, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
-                    glTranslatef(-0.093, -0.307, 0.087);
-                    drawleglowerB();
-                glPopMatrix();
+            glTranslatef(0.215, 0.08, 0);
+            glRotatef(angleX[4], 1, 0, 0);
+            glRotatef(angleY[4], 0, 0, 1);
+            glTranslatef(0, -0.07, 0);
+            drawupperB();
+            glPushMatrix();
+                glScalef(0.8, 0.8, 0.8);
+                glTranslatef(0.02, -0.23, 0);
+                glRotatef(angleX[5], 1, 0, 0);
+                glRotatef(angleY[5], 0, 0, 1);
+                glTranslatef(0, -0.21, 0);
+                drawlowerB();
             glPopMatrix();*/
+
+
         glPopMatrix();
     glPopMatrix();
-
     glutSwapBuffers();
 }
 
