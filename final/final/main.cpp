@@ -3,6 +3,7 @@
 #include <opencv/highgui.h> ///使用 OpenCV 2.1 比較簡單, 只要用 High GUI 即可
 #include <opencv/cv.h>
 #include <GL/glut.h>
+float teapotX=0, teapotY=0; ///jsyeh
 int myTexture(char * filename)
 {
     IplImage * img = cvLoadImage(filename);
@@ -37,7 +38,7 @@ void drawBody(void)
     if (!Body) {
         Body = glmReadOBJ("data2/body.obj");
         if (!Body) exit(0);
-        glmUnitize(Body);
+        glmScale(Body, 1/7.0);///glmUnitize(leglowerA);
         glmFacetNormals(Body);
         glmVertexNormals(Body, 90.0);
     }
@@ -50,7 +51,7 @@ void drawHead(void)
     if (!Head) {
         Head = glmReadOBJ("data2/head.obj");
         if (!Head) exit(0);
-        glmUnitize(Head);
+        glmScale(Head, 1/7.0);
         glmFacetNormals(Head);
         glmVertexNormals(Head, 90.0);
     }
@@ -63,7 +64,7 @@ void drawupperA(void)
     if (!upperA) {
         upperA = glmReadOBJ("data2/upperA.obj");
         if (!upperA) exit(0);
-        glmUnitize(upperA);
+        glmScale(upperA, 1/7.0);
         glmFacetNormals(upperA);
         glmVertexNormals(upperA, 90.0);
     }
@@ -76,7 +77,7 @@ void drawlowerA(void)
     if (!lowerA) {
         lowerA = glmReadOBJ("data2/lowerA.obj");
         if (!lowerA) exit(0);
-        glmUnitize(lowerA);
+        glmScale(lowerA, 1/7.0);
         glmFacetNormals(lowerA);
         glmVertexNormals(lowerA, 90.0);
     }
@@ -89,7 +90,7 @@ void drawupperB(void)
     if (!upperB) {
         upperB = glmReadOBJ("data2/upperB.obj");
         if (!upperB) exit(0);
-        glmUnitize(upperB);
+        glmScale(upperB, 1/7.0);
         glmFacetNormals(upperB);
         glmVertexNormals(upperB, 90.0);
     }
@@ -102,7 +103,7 @@ void drawlowerB(void)
     if (!lowerB) {
         lowerB = glmReadOBJ("data2/lowerB.obj");
         if (!lowerB) exit(0);
-        glmUnitize(lowerB);
+        glmScale(lowerB, 1/7.0);
         glmFacetNormals(lowerB);
         glmVertexNormals(lowerB, 90.0);
     }
@@ -115,7 +116,7 @@ void drawlegupperA(void)
     if (!legupperA) {
         legupperA = glmReadOBJ("data2/legupperA.obj");
         if (!legupperA) exit(0);
-        glmUnitize(legupperA);
+        glmScale(legupperA, 1/7.0);///glmUnitize(leglowerA);
         glmFacetNormals(legupperA);
         glmVertexNormals(legupperA, 90.0);
     }
@@ -128,7 +129,7 @@ void drawlegupperB(void)
     if (!legupperB) {
         legupperB = glmReadOBJ("data2/legupperB.obj");
         if (!legupperB) exit(0);
-        glmUnitize(legupperB);
+        glmScale(legupperB, 1/7.0);
         glmFacetNormals(legupperB);
         glmVertexNormals(legupperB, 90.0);
     }
@@ -141,7 +142,7 @@ void drawleglowerA(void)
     if (!leglowerA) {
         leglowerA = glmReadOBJ("data2/leglowerA.obj");
         if (!leglowerA) exit(0);
-        glmUnitize(leglowerA);
+        glmScale(leglowerA, 1/7.0);///glmUnitize(leglowerA);
         glmFacetNormals(leglowerA);
         glmVertexNormals(leglowerA, 90.0);
     }
@@ -154,20 +155,12 @@ void drawleglowerB(void)
     if (!leglowerB) {
         leglowerB = glmReadOBJ("data2/leglowerB.obj");
         if (!leglowerB) exit(0);
-        glmUnitize(leglowerB);
+        glmScale(leglowerB, 1/7.0);
         glmFacetNormals(leglowerB);
         glmVertexNormals(leglowerB, 90.0);
     }
 
     glmDraw(leglowerB, GLM_SMOOTH | GLM_MATERIAL);
-}
-
-void myBody()
-{
-    glPushMatrix();
-        glColor3f(1,0,0);
-        glutSolidCube(0.6);
-    glPopMatrix();
 }
 float angleX[10]={},angleY[10]={};
 int angleID = 0;
@@ -175,9 +168,15 @@ int oldX = 0, oldY = 0;
 #include <stdio.h>
 FILE * fin = NULL;
 FILE * fout = NULL;
-void motion(int x, int y){
-    angleX[angleID] += y - oldY;
-    angleY[angleID] -= x - oldX;
+void motion(int x, int y){ ///jsyeh
+    if(1){
+        teapotX += (x - oldX) / 150.0;
+        teapotY -= (y - oldY) / 150.0;
+        printf("glTranslatef(%.3f, %.3f, 0);\n", teapotX, teapotY);
+    }else{
+        angleX[angleID] += y - oldY;
+        angleY[angleID] -= x - oldX;
+    }
     oldX = x;
     oldY = y;
     glutPostRedisplay();
@@ -257,114 +256,65 @@ void display()
     glClearColor(0.3,0.3,0.3,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glDisable(GL_TEXTURE_2D);
-
     glPushMatrix();
-        glRotatef(angleX[0], 1, 0, 0);
-        glRotatef(angleY[0], 0, 1, 0);
         glRotatef(180,0,1,0);
-        drawBody();
-
+        glTranslatef(0, -0.8, 0);
+        glutSolidSphere(0.02, 30, 30);
         glPushMatrix();
-            glScalef(1.4,1.4,1.4);
-            glTranslatef(0 , 0.27 , 0.1);
-            glRotatef(angleX[1],0,1,0);
-            glTranslatef(0 , 0 , 0);
-            drawHead();
-        glPopMatrix();
-
-        glPushMatrix();
-            glTranslatef(-0.215, 0.05, 0.03);
-            glRotatef(angleX[2], 1, 0, 0);
-            glRotatef(angleY[2], 0, 0, 1);
-            glTranslatef(0, -0.07, 0);
-            drawupperA();
+            glTranslatef(0,0,0);
+            ///R
+            drawBody();
             glPushMatrix();
-                glScalef(0.8, 0.8, 0.8);
-                glTranslatef(-0.02, -0.23, -0.03);
-                glRotatef(angleX[3], 1, 0, 0);
-                glRotatef(angleY[3], 0, 0, 1);
-                glTranslatef(0, -0.21, 0);
-                drawlowerA();
-            glPopMatrix();
-        glPopMatrix();
-
-        glPushMatrix();
-            glTranslatef(0.215, 0.05, 0.03);
-            glRotatef(angleX[4], 1, 0, 0);
-            glRotatef(angleY[4], 0, 0, 1);
-            glTranslatef(0, -0.07, 0);
-            drawupperB();
-            glPushMatrix();
-                glScalef(0.8, 0.8, 0.8);
-                glTranslatef(0.02, -0.23, -0.03);
-                glRotatef(angleX[5], 1, 0, 0);
-                glRotatef(angleY[5], 0, 0, 1);
-                glTranslatef(0, -0.21, 0);
-                drawlowerB();
-            glPopMatrix();
-
-            glPushMatrix();
-            glScalef(0.8,0.8,0.8);
-            glTranslatef(0, -0.5, 0);
-            glRotatef(angleX[6], 1, 0, 0);
-            glRotatef(angleY[6], 0, 0, 1);
-            glTranslatef(0, 0, 0);
-            drawlegupperA();
-            glPushMatrix();
-                glScalef(0, 0, 0);
-                glTranslatef(0, 0, 0);
-                glRotatef(angleX[7], 1, 0, 0);
-                glRotatef(angleY[7], 0, 0, 1);
-                glTranslatef(0, 0, 0);
-                drawleglowerA();
+                glTranslatef(teapotX, teapotY, -0.093);
+                glRotatef(angleX[3], 0, 0, 1);
+                glTranslatef(-0.033, -0.720, 0.073);
+                drawlegupperA();
+                glPushMatrix();
+                    glTranslatef(0.100, 0.327, -0.073);
+                    glRotatef(angleX[4], 1, 0, 0);
+                    glTranslatef(0.100, -0.313, 0.087);
+                    drawleglowerA();
+                glPopMatrix();
             glPopMatrix();
 
             /*glPushMatrix();
-            glTranslatef(0.215, 0.08, 0);
-            glRotatef(angleX[4], 1, 0, 0);
-            glRotatef(angleY[4], 0, 0, 1);
-            glTranslatef(0, -0.07, 0);
-            drawupperB();
-            glPushMatrix();
-                glScalef(0.8, 0.8, 0.8);
-                glTranslatef(0.02, -0.23, 0);
-                glRotatef(angleX[5], 1, 0, 0);
-                glRotatef(angleY[5], 0, 0, 1);
-                glTranslatef(0, -0.21, 0);
-                drawlowerB();
+                glTranslatef(0.033, 0.720, -0.093);
+                glRotatef(angleX[3], 0, 0, 1);
+                glTranslatef(-0.033, -0.713, 0.073);
+                drawlegupperB();
+                glPushMatrix();
+                    glTranslatef(0.087, 0.340, -0.073);
+                    glRotatef(angleX[4], 1, 0, 0);
+                    glTranslatef(-0.093, -0.307, 0.087);
+                    drawleglowerB();
+                glPopMatrix();
             glPopMatrix();*/
-
-
         glPopMatrix();
     glPopMatrix();
+
     glutSwapBuffers();
 }
 
 const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, -5.0f, 0.0f };///加這行, 讓它轉動
+const GLfloat light_position[] = { 2.0f, 5.0f, -5.0f, 0.0f };
 
 const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
 const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
 const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
 const GLfloat high_shininess[] = { 100.0f };
-///void timer(int t)
-///{
-///    glutTimerFunc(1000,timer,t+1);
-///    printf("現在起床:%d\n",t);
-///}
+
 int main(int argc, char*argv[])
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_DEPTH);
-    glutCreateWindow("week13-1");
+    glutCreateWindow("FinalWork");
     glutDisplayFunc(display);
-    glutIdleFunc(display); ///加這行, 讓它轉動
-    glutMouseFunc(mouse); ///大象放到冰箱
-    glutMotionFunc(motion); ///滑鼠控制
-    glutKeyboardFunc(keyboard); ///week13-1新加
-///    glutTimerFunc(0,timer,0);
+    glutIdleFunc(display);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
+    glutKeyboardFunc(keyboard);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
