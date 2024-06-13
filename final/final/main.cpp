@@ -21,12 +21,16 @@ int myTexture(char * filename)
 #include <GL/glut.h>
 #include "glm.h"
 GLMmodel* pmodel = NULL;
-GLMmodel* upperB = NULL;
-GLMmodel* lowerB = NULL;
 GLMmodel* upperA = NULL;
+GLMmodel* upperB = NULL;
 GLMmodel* lowerA = NULL;
+GLMmodel* lowerB = NULL;
 GLMmodel* Body = NULL;
 GLMmodel* Head = NULL;
+GLMmodel* legupperA = NULL;
+GLMmodel* legupperB = NULL;
+GLMmodel* leglowerA = NULL;
+GLMmodel* leglowerB = NULL;
 
 void drawBody(void)
 {
@@ -50,7 +54,7 @@ void drawHead(void)
         glmFacetNormals(Head);
         glmVertexNormals(Head, 90.0);
     }
-
+    ///glBindTexture(GL_TEXTURE_2D, textureID);
     glmDraw(Head, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -106,11 +110,63 @@ void drawlowerB(void)
     glmDraw(lowerB, GLM_SMOOTH | GLM_MATERIAL);
 }
 
+void drawlegupperA(void)
+{
+    if (!legupperA) {
+        legupperA = glmReadOBJ("data2/legupperA.obj");
+        if (!legupperA) exit(0);
+        glmUnitize(legupperA);
+        glmFacetNormals(legupperA);
+        glmVertexNormals(legupperA, 90.0);
+    }
+
+    glmDraw(legupperA, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void drawlegupperB(void)
+{
+    if (!legupperB) {
+        legupperB = glmReadOBJ("data2/legupperB.obj");
+        if (!legupperB) exit(0);
+        glmUnitize(legupperB);
+        glmFacetNormals(legupperB);
+        glmVertexNormals(legupperB, 90.0);
+    }
+
+    glmDraw(legupperB, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void drawleglowerA(void)
+{
+    if (!leglowerA) {
+        leglowerA = glmReadOBJ("data2/leglowerA.obj");
+        if (!leglowerA) exit(0);
+        glmUnitize(leglowerA);
+        glmFacetNormals(leglowerA);
+        glmVertexNormals(leglowerA, 90.0);
+    }
+
+    glmDraw(leglowerA, GLM_SMOOTH | GLM_MATERIAL);
+}
+
+void drawleglowerB(void)
+{
+    if (!leglowerB) {
+        leglowerB = glmReadOBJ("data2/leglowerB.obj");
+        if (!leglowerB) exit(0);
+        glmUnitize(leglowerB);
+        glmFacetNormals(leglowerB);
+        glmVertexNormals(leglowerB, 90.0);
+    }
+
+    glmDraw(leglowerB, GLM_SMOOTH | GLM_MATERIAL);
+}
+
 void myBody()
 {
     glPushMatrix();
         glColor3f(1,0,0);
-        glutSolidCube(0.6); // Body
+        glutSolidCube(0.6);
     glPopMatrix();
 }
 float angleX[10]={},angleY[10]={};
@@ -119,13 +175,13 @@ int oldX = 0, oldY = 0;
 #include <stdio.h>
 FILE * fin = NULL;
 FILE * fout = NULL;
-void motion(int x, int y){ ///加入mouse motion 對應的函式
-    angleX[angleID] += y - oldY;/// 當我們的 mouse motion 時, y座標的對應角度
+void motion(int x, int y){
+    angleX[angleID] += y - oldY;
     angleY[angleID] -= x - oldX;
     oldX = x;
     oldY = y;
     glutPostRedisplay();
-    ///把原本在motion裡存檔的程式碼剪下來貼到keyboard()裡面
+
 }
 
 void mouse(int button, int state, int x, int y) {
@@ -205,25 +261,26 @@ void display()
     glPushMatrix();
         glRotatef(angleX[0], 1, 0, 0);
         glRotatef(angleY[0], 0, 1, 0);
+        glRotatef(180,0,1,0);
         drawBody();
 
         glPushMatrix();
             glScalef(1.4,1.4,1.4);
-            glTranslatef(0 , 0.28 , 0);
+            glTranslatef(0 , 0.27 , 0.1);
             glRotatef(angleX[1],0,1,0);
             glTranslatef(0 , 0 , 0);
             drawHead();
         glPopMatrix();
 
         glPushMatrix();
-            glTranslatef(-0.215, 0.08, 0);
+            glTranslatef(-0.215, 0.05, 0.03);
             glRotatef(angleX[2], 1, 0, 0);
             glRotatef(angleY[2], 0, 0, 1);
             glTranslatef(0, -0.07, 0);
             drawupperA();
             glPushMatrix();
                 glScalef(0.8, 0.8, 0.8);
-                glTranslatef(-0.02, -0.23, 0);
+                glTranslatef(-0.02, -0.23, -0.03);
                 glRotatef(angleX[3], 1, 0, 0);
                 glRotatef(angleY[3], 0, 0, 1);
                 glTranslatef(0, -0.21, 0);
@@ -232,14 +289,14 @@ void display()
         glPopMatrix();
 
         glPushMatrix();
-            glTranslatef(0.215, 0.08, 0);
+            glTranslatef(0.215, 0.05, 0.03);
             glRotatef(angleX[4], 1, 0, 0);
             glRotatef(angleY[4], 0, 0, 1);
             glTranslatef(0, -0.07, 0);
             drawupperB();
             glPushMatrix();
                 glScalef(0.8, 0.8, 0.8);
-                glTranslatef(0.02, -0.23, 0);
+                glTranslatef(0.02, -0.23, -0.03);
                 glRotatef(angleX[5], 1, 0, 0);
                 glRotatef(angleY[5], 0, 0, 1);
                 glTranslatef(0, -0.21, 0);
@@ -247,21 +304,22 @@ void display()
             glPopMatrix();
 
             glPushMatrix();
-            glTranslatef(0.215, 0.08, 0);
-            glRotatef(angleX[4], 1, 0, 0);
-            glRotatef(angleY[4], 0, 0, 1);
-            glTranslatef(0, -0.07, 0);
-            drawupperB();
+            glScalef(0.8,0.8,0.8);
+            glTranslatef(0, -0.5, 0);
+            glRotatef(angleX[6], 1, 0, 0);
+            glRotatef(angleY[6], 0, 0, 1);
+            glTranslatef(0, 0, 0);
+            drawlegupperA();
             glPushMatrix();
-                glScalef(0.8, 0.8, 0.8);
-                glTranslatef(0.02, -0.23, 0);
-                glRotatef(angleX[5], 1, 0, 0);
-                glRotatef(angleY[5], 0, 0, 1);
-                glTranslatef(0, -0.21, 0);
-                drawlowerB();
+                glScalef(0, 0, 0);
+                glTranslatef(0, 0, 0);
+                glRotatef(angleX[7], 1, 0, 0);
+                glRotatef(angleY[7], 0, 0, 1);
+                glTranslatef(0, 0, 0);
+                drawleglowerA();
             glPopMatrix();
 
-            glPushMatrix();
+            /*glPushMatrix();
             glTranslatef(0.215, 0.08, 0);
             glRotatef(angleX[4], 1, 0, 0);
             glRotatef(angleY[4], 0, 0, 1);
@@ -274,7 +332,7 @@ void display()
                 glRotatef(angleY[5], 0, 0, 1);
                 glTranslatef(0, -0.21, 0);
                 drawlowerB();
-            glPopMatrix();
+            glPopMatrix();*/
 
 
         glPopMatrix();
@@ -307,8 +365,6 @@ int main(int argc, char*argv[])
     glutMotionFunc(motion); ///滑鼠控制
     glutKeyboardFunc(keyboard); ///week13-1新加
 ///    glutTimerFunc(0,timer,0);
-
-    myTexture("data/Diffuse.jpg");
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
