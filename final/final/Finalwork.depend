@@ -32,3 +32,36 @@
 	"glm.h"
 	<stdio.h>
 
+1718382452 source:c:\users\mic\desktop\2024-graphicsa\final\final\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1718382452 c:\users\mic\desktop\2024-graphicsa\final\final\glm.h
+	<GL/glut.h>
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\glut.h
+	"freeglut_std.h"
+
+1716217232 c:\users\mic\desktop\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1718388730 source:c:\users\mic\desktop\2024-graphicsa\final\final\main.cpp
+	<opencv/highgui.h>
+	<opencv/cv.h>
+	<GL/glut.h>
+	<stdio.h>
+	<GL/glut.h>
+	"glm.h"
+

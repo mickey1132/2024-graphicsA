@@ -1,13 +1,35 @@
-///р week08-1_glm_gundam 祘Α禟ㄓ
-///单, 璶禟瓜 18︽祘Α
-#include <opencv/highgui.h> ///ㄏノ OpenCV 2.1 ゑ耕虏虫, 璶ノ High GUI 
+#include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <GL/glut.h>
+#include <stdio.h>
+GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat light_position[] = { -10.0f, 10.0f, -10.0f, 1.0f }; /// 方竚
+
+GLfloat light1_diffuse[] = { 0.7f, 0.7f, 0.7f, 1.0f }; /// 肂方憨は甮肅︹
+GLfloat light1_specular[] = { 0.9f, 0.9f, 0.9f, 1.0f }; ///肂方蔼肅︹
+GLfloat light1_position[] = { 0.0f, 10.0f, 0.0f, 1.0f }; ///肂方竚
+
+// 借妮┦
+GLfloat mat_ambient[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+GLfloat mat_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat high_shininess[] = { 100.0f };
+
+
 float teapotX=0, teapotY=0; ///jsyeh
-int myTexture(char * filename)
+GLuint bgTexture;
+
+// 更瓜ネΘ瞶
+GLuint myTexture(const char *filename)
 {
-    IplImage * img = cvLoadImage(filename);
-    cvCvtColor(img,img, CV_BGR2RGB);
+    IplImage *img = cvLoadImage(filename);
+    if (!img) {
+        printf("Error: Could not load image %s\n", filename);
+        return -1;
+    }
+    cvCvtColor(img, img, CV_BGR2RGB);
     glEnable(GL_TEXTURE_2D);
     GLuint id;
     glGenTextures(1, &id);
@@ -17,6 +39,7 @@ int myTexture(char * filename)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->width, img->height, 0, GL_RGB, GL_UNSIGNED_BYTE, img->imageData);
+    cvReleaseImage(&img);
     return id;
 }
 #include <GL/glut.h>
@@ -162,10 +185,37 @@ void drawleglowerB(void)
 
     glmDraw(leglowerB, GLM_SMOOTH | GLM_MATERIAL);
 }
+
+void drawBackground()
+{
+    glDisable(GL_DEPTH_TEST);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0.0, 1.0, 0.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glBindTexture(GL_TEXTURE_2D, bgTexture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0, 0.0); glVertex2f(0.0, 0.0);
+    glTexCoord2f(1.0, 0.0); glVertex2f(1.0, 0.0);
+    glTexCoord2f(1.0, 1.0); glVertex2f(1.0, 1.0);
+    glTexCoord2f(0.0, 1.0); glVertex2f(0.0, 1.0);
+    glEnd();
+
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
+}
+
 float angleX[10]={},angleY[10]={};
 int angleID = 0;
 int oldX = 0, oldY = 0;
-#include <stdio.h>
+
 FILE * fin = NULL;
 FILE * fout = NULL;
 void motion(int x, int y){ ///jsyeh
@@ -251,100 +301,95 @@ void keyboard(unsigned char key, int x, int y) {
     if(key=='8') angleID = 8;
     if(key=='9') angleID = 9;
 }
+
 void display()
 {
-    glClearColor(0.3,0.3,0.3,0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    glDisable(GL_TEXTURE_2D);
+    drawBackground();
     glPushMatrix();
-        ///glRotatef(-90,0,1,0);
+        ///glRotatef(90,0,1,0);
         glTranslatef(0, -0.8, 0);
-        glutSolidSphere(0.02, 30, 30);
+        ///glutSolidSphere(0.02, 30, 30);
         glPushMatrix();
             glTranslatef(0,0,0);
             glRotatef(angleY[0],0,1,0);
             drawBody();
-            ///家オもA
+            ///家繷
             glPushMatrix();
                 glTranslatef(0.000, 1.040,-0.067);
-                ///glRotatef();
+                glRotatef(angleX[1],0,1,0);
                 glTranslatef(0.000, -1.047,0.060);
                 drawHead();
             glPopMatrix();
+            ///家オもA
             glPushMatrix();
-                glTranslatef(-0.133, 0.947, -0.073);
-                glRotatef(-angleX[3], 1, 0, 0);
-                glRotatef(angleY[3], 0, 0, 1);
+                glTranslatef(-0.140, 0.940, -0.073);
+                glRotatef(-angleX[2], 1, 0, 0);
+                glRotatef(angleY[2], 0, 0, 1);
                 glTranslatef(0.140, -0.940, 0.073);
                 drawupperA();
-                glPushMatrix();
+                glPushMatrix();glRotatef(-angleX[8], 1, 0, 0);
+                glRotatef(angleY[8], 0, 0, 1);
                     glTranslatef(-0.207, 0.740, -0.073);
-                    glRotatef(-angleX[4], 1, 0, 0);
-                glRotatef(angleY[4], 0, 0, 1);
+                    glRotatef(-angleX[3], 1, 0, 0);
+                    glRotatef(angleY[3], 0, 0, 1);
                     glTranslatef(0.207, -0.713, 0.073);
                     drawlowerA();
                 glPopMatrix();
             glPopMatrix();
             ///家もB
             glPushMatrix();
-                glTranslatef(0.147, 0.947, -0.073);
-                glRotatef(-angleX[5], 1, 0, 0);
-                glRotatef(angleY[5], 0, 0, 1);
+                glTranslatef(0.147, 0.940, -0.073);
+                glRotatef(-angleX[4], 1, 0, 0);
+                glRotatef(angleY[4], 0, 0, 1);
                 glTranslatef(-0.147, -0.940, 0.073);
                 drawupperB();
                 glPushMatrix();
                     glTranslatef(0.207, 0.707, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
+                    glRotatef(angleX[5], 1, 0, 0);
+                    glRotatef(angleY[5], 0, 0, 1);
                     glTranslatef(-0.207, -0.707, 0.073);
                     drawlowerB();
                 glPopMatrix();
             glPopMatrix();
-            ///家竲A
+            ///家オ竲A
             glPushMatrix();
                 glTranslatef(0.033, 0.720, -0.073);
-                glRotatef(angleX[3], 0, 0, 1);
+                glRotatef(-angleX[6], 1, 0, 0);
+                glRotatef(angleY[6], 0, 0, 1);
                 glTranslatef(-0.033, -0.720, 0.073);
                 drawlegupperA();
                 glPushMatrix();
-                    glTranslatef(0.100, 0.327, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
-                    glTranslatef(0.100, -0.313, 0.087);
+                    glTranslatef(-0.100, 0.313, -0.073);
+                    glRotatef(angleX[7], 1, 0, 0);
+                    glTranslatef(0.100, -0.313, 0.073);
                     drawleglowerA();
                 glPopMatrix();
             glPopMatrix();
-
-            /*glPushMatrix();
-                glTranslatef(0.033, 0.720, -0.093);
-                glRotatef(angleX[3], 0, 0, 1);
-                glTranslatef(-0.033, -0.713, 0.073);
+            ///家竲B
+            glPushMatrix();
+                glTranslatef(0.033, 0.707, -0.093);
+                glRotatef(-angleX[8], 1, 0, 0);
+                glRotatef(angleY[8], 0, 0, 1);
+                glTranslatef(-0.033, -0.707, 0.093);
                 drawlegupperB();
                 glPushMatrix();
-                    glTranslatef(0.087, 0.340, -0.073);
-                    glRotatef(angleX[4], 1, 0, 0);
-                    glTranslatef(-0.093, -0.307, 0.087);
+                    glTranslatef(0.280, 0.960, -0.173);
+                    glRotatef(angleX[9], 1, 0, 0);
+                    glTranslatef(-0.280, -0.960, 0.173);
                     drawleglowerB();
                 glPopMatrix();
-            glPopMatrix();*/
+            glPopMatrix();
         glPopMatrix();
     glPopMatrix();
 
     glutSwapBuffers();
 }
 
-const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, -5.0f, 0.0f };
-
-const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat high_shininess[] = { 100.0f };
-
-int main(int argc, char*argv[])
+int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE|GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("FinalWork");
     glutDisplayFunc(display);
     glutIdleFunc(display);
@@ -352,23 +397,37 @@ int main(int argc, char*argv[])
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
 
+    bgTexture = myTexture("background.jpg");
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+    /// 璶方ㄓ弊よ
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diffuse);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
+    /// 肂方ㄓいよ
+    glEnable(GL_LIGHT1);
+    GLfloat light1_position[] = { 0.0f, 10.0f, 0.0f, 1.0f }; /// いよ竚
+    GLfloat light1_diffuse[] = { 0.7f, 0.7f, 0.7f, 1.0f };   /// 肅︹diffuse
+    GLfloat light1_specular[] = { 0.9f, 0.9f, 0.9f, 1.0f };  /// 蔼肅︹specular
+
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
     glutMainLoop();
 }
+
