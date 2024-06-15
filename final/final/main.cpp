@@ -5,7 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "CMP3_MCI.h"
 
+CMP3_MCI myMP3;
 float teapotX=0, teapotY=0; ///jsyeh
 GLuint bgTexture; /// 背景紋理
 
@@ -341,6 +343,8 @@ void timer(int t)
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'p': case 'P':
+            myMP3.Load("song.mp3");
+            myMP3.Play();
             glutTimerFunc(0, timer, 0);
             break;
         case 'r': case 'R':
@@ -382,7 +386,9 @@ void display()
 {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_TEXTURE_2D);
     drawBackground();
+    glDisable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -402,7 +408,7 @@ void display()
             /// 绘制头部
             glPushMatrix();
                 glTranslatef(0.000, 1.040, -0.067);
-                glRotatef(angleX[1], 0, 1, 0);
+                glRotatef(angleY[1], 0, 1, 0);
                 glTranslatef(0.000, -1.047, 0.060);
                 drawHead();
             glPopMatrix();
@@ -480,6 +486,7 @@ void display()
 
 int main(int argc, char* argv[])
 {
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("FinalWork");

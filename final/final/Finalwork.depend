@@ -68,3 +68,45 @@
 	<GL/glut.h>
 	"glm.h"
 
+1718459584 source:c:\users\jeremy\desktop\2024-graphicsa\final\final\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1718459584 c:\users\jeremy\desktop\2024-graphicsa\final\final\glm.h
+	<GL/glut.h>
+
+1709532591 c:\users\jeremy\desktop\freeglut\include\gl\glut.h
+	"freeglut_std.h"
+
+1709532591 c:\users\jeremy\desktop\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1718468836 source:c:\users\jeremy\desktop\2024-graphicsa\final\final\main.cpp
+	<opencv/highgui.h>
+	<opencv/cv.h>
+	<GL/glut.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
+	"CMP3_MCI.h"
+	<GL/glut.h>
+	"glm.h"
+
+1718459585 c:\users\jeremy\desktop\2024-graphicsa\final\final\cmp3_mci.h
+	<string>
+	<windows.h>
+	<mmsystem.h>
+
