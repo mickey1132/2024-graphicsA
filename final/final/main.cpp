@@ -2,28 +2,15 @@
 #include <opencv/cv.h>
 #include <GL/glut.h>
 #include <stdio.h>
-GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat light_position[] = { -10.0f, 10.0f, -10.0f, 1.0f }; /// 方竚
-
-GLfloat light1_diffuse[] = { 0.7f, 0.7f, 0.7f, 1.0f }; /// 肂方憨は甮肅︹
-GLfloat light1_specular[] = { 0.9f, 0.9f, 0.9f, 1.0f }; ///肂方蔼肅︹
-GLfloat light1_position[] = { 0.0f, 10.0f, 0.0f, 1.0f }; ///肂方竚
-
-// 借妮┦
-GLfloat mat_ambient[] = { 0.7f, 0.7f, 0.7f, 1.0f };
-GLfloat mat_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat high_shininess[] = { 100.0f };
-
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 float teapotX=0, teapotY=0; ///jsyeh
-GLuint bgTexture;
+GLuint bgTexture; /// 背景紋理
 
-// 更瓜ネΘ瞶
-GLuint myTexture(const char *filename)
-{
+/// 載入紋理
+GLuint myTexture(const char *filename) {
     IplImage *img = cvLoadImage(filename);
     if (!img) {
         printf("Error: Could not load image %s\n", filename);
@@ -66,6 +53,15 @@ void drawBody(void)
         glmVertexNormals(Body, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(Body, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -78,7 +74,16 @@ void drawHead(void)
         glmFacetNormals(Head);
         glmVertexNormals(Head, 90.0);
     }
-    ///glBindTexture(GL_TEXTURE_2D, textureID);
+
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(Head, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -92,6 +97,15 @@ void drawupperA(void)
         glmVertexNormals(upperA, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(upperA, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -105,6 +119,15 @@ void drawlowerA(void)
         glmVertexNormals(lowerA, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(lowerA, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -118,6 +141,15 @@ void drawupperB(void)
         glmVertexNormals(upperB, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(upperB, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -131,6 +163,15 @@ void drawlowerB(void)
         glmVertexNormals(lowerB, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(lowerB, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -144,6 +185,15 @@ void drawlegupperA(void)
         glmVertexNormals(legupperA, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(legupperA, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -157,6 +207,15 @@ void drawlegupperB(void)
         glmVertexNormals(legupperB, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(legupperB, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -170,6 +229,15 @@ void drawleglowerA(void)
         glmVertexNormals(leglowerA, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(leglowerA, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -183,6 +251,15 @@ void drawleglowerB(void)
         glmVertexNormals(leglowerB, 90.0);
     }
 
+    // 設置材質
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    // 設置模型位置和光源
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
+    // 繪製模型
     glmDraw(leglowerB, GLM_SMOOTH | GLM_MATERIAL);
 }
 
@@ -262,85 +339,94 @@ void timer(int t)
     glutPostRedisplay();
 }
 void keyboard(unsigned char key, int x, int y) {
-
-	if(key=='p' || key=='P')
-    {
-        glutTimerFunc(0,timer,0);
+    switch (key) {
+        case 'p': case 'P':
+            glutTimerFunc(0, timer, 0);
+            break;
+        case 'r': case 'R':
+            if (fin == NULL) fin = fopen("angle.txt", "r");
+            for (int i = 0; i < 10; i++) {
+                fscanf(fin, "%f", &angleX[i]);
+                fscanf(fin, "%f", &angleY[i]);
+            }
+            glutPostRedisplay();
+            break;
+        case 's': case 'S':
+            if (fout == NULL) fout = fopen("angle.txt", "w+");
+            for (int i = 0; i < 10; i++) {
+                printf("%.1f ", angleX[i]);
+                printf("%.1f ", angleY[i]);
+                fprintf(fout, "%.1f ", angleX[i]);
+                fprintf(fout, "%.1f ", angleY[i]);
+            }
+            printf("\n");
+            fprintf(fout, "\n");
+            break;
+        case '0': angleID = 0; break;
+        case '1': angleID = 1; break;
+        case '2': angleID = 2; break;
+        case '3': angleID = 3; break;
+        case '4': angleID = 4; break;
+        case '5': angleID = 5; break;
+        case '6': angleID = 6; break;
+        case '7': angleID = 7; break;
+        case '8': angleID = 8; break;
+        case '9': angleID = 9; break;
+        default:
+            break;
     }
-	if(key=='r' || key=='R')
-    {
-		if(fin==NULL) fin = fopen("angle.txt", "r");
-		for(int i=0; i<20; i++)
-		{
-			fscanf(fin, "%f", & angleX[i] );
-			fscanf(fin, "%f", & angleY[i] );
-		}
-		glutPostRedisplay();
-	}
-	else if(key=='S' || key=='s')
-    {
-        if(fout==NULL) fout = fopen("angle.txt", "w+");
-        for(int i=0; i<20; i++)
-        {
-            printf("%.1f ", angleX[i] );
-            printf("%.1f ", angleY[i] );
-            fprintf(fout, "%.1f ", angleX[i] );
-            fprintf(fout, "%.1f ", angleY[i] );
-        }
-        printf("\n");
-        fprintf(fout, "\n");
-    }
-    if(key=='0') angleID = 0;
-    if(key=='1') angleID = 1;
-    if(key=='2') angleID = 2;
-    if(key=='3') angleID = 3;
-    if(key=='4') angleID = 4;
-    if(key=='5') angleID = 5;
-    if(key=='6') angleID = 6;
-    if(key=='7') angleID = 7;
-    if(key=='8') angleID = 8;
-    if(key=='9') angleID = 9;
 }
+
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     drawBackground();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+
+    /// 绘制背景
+
+
     glPushMatrix();
-        ///glRotatef(90,0,1,0);
         glTranslatef(0, -0.8, 0);
-        ///glutSolidSphere(0.02, 30, 30);
+
         glPushMatrix();
-            glTranslatef(0,0,0);
-            glRotatef(angleY[0],0,1,0);
+            glTranslatef(0, 0, 0);
+            glRotatef(angleY[0], 0, 1, 0);
             drawBody();
-            ///家繷
+
+            /// 绘制头部
             glPushMatrix();
-                glTranslatef(0.000, 1.040,-0.067);
-                glRotatef(angleX[1],0,1,0);
-                glTranslatef(0.000, -1.047,0.060);
+                glTranslatef(0.000, 1.040, -0.067);
+                glRotatef(angleX[1], 0, 1, 0);
+                glTranslatef(0.000, -1.047, 0.060);
                 drawHead();
             glPopMatrix();
-            ///家オもA
+
+            /// 绘制手臂 A
             glPushMatrix();
                 glTranslatef(-0.140, 0.940, -0.073);
-                glRotatef(-angleX[2], 1, 0, 0);
+                glRotatef(angleX[2], 1, 0, 0);
                 glRotatef(angleY[2], 0, 0, 1);
                 glTranslatef(0.140, -0.940, 0.073);
                 drawupperA();
-                glPushMatrix();glRotatef(-angleX[8], 1, 0, 0);
-                glRotatef(angleY[8], 0, 0, 1);
+                glPushMatrix();
                     glTranslatef(-0.207, 0.740, -0.073);
-                    glRotatef(-angleX[3], 1, 0, 0);
+                    glRotatef(angleX[3], 1, 0, 0);
                     glRotatef(angleY[3], 0, 0, 1);
                     glTranslatef(0.207, -0.713, 0.073);
                     drawlowerA();
                 glPopMatrix();
             glPopMatrix();
-            ///家もB
+
+            /// 绘制手臂 B
             glPushMatrix();
                 glTranslatef(0.147, 0.940, -0.073);
-                glRotatef(-angleX[4], 1, 0, 0);
+                glRotatef(angleX[4], 1, 0, 0);
                 glRotatef(angleY[4], 0, 0, 1);
                 glTranslatef(-0.147, -0.940, 0.073);
                 drawupperB();
@@ -352,10 +438,11 @@ void display()
                     drawlowerB();
                 glPopMatrix();
             glPopMatrix();
-            ///家オ竲A
+
+            /// 绘制腿部 A
             glPushMatrix();
                 glTranslatef(0.033, 0.720, -0.073);
-                glRotatef(-angleX[6], 1, 0, 0);
+                glRotatef(angleX[6], 1, 0, 0);
                 glRotatef(angleY[6], 0, 0, 1);
                 glTranslatef(-0.033, -0.720, 0.073);
                 drawlegupperA();
@@ -366,10 +453,11 @@ void display()
                     drawleglowerA();
                 glPopMatrix();
             glPopMatrix();
-            ///家竲B
+
+            /// 绘制腿部 B
             glPushMatrix();
                 glTranslatef(0.033, 0.707, -0.093);
-                glRotatef(-angleX[8], 1, 0, 0);
+                glRotatef(angleX[8], 1, 0, 0);
                 glRotatef(angleY[8], 0, 0, 1);
                 glTranslatef(-0.033, -0.707, 0.093);
                 drawlegupperB();
@@ -382,6 +470,10 @@ void display()
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
+    glDisable(GL_LIGHT1);
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
 
     glutSwapBuffers();
 }
@@ -391,43 +483,46 @@ int main(int argc, char* argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("FinalWork");
+
+    // 初始化和配置光源
+    GLfloat light_position[] = { 0.0, 10.0, 0.0, 1.0 };   // 光源位置在正上方
+    GLfloat light_direction[] = { 0.0, -1.0, 0.0 };      // 光源方向向下
+    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };    // 光源散射光的颜色（白色）
+
+    GLfloat increased_diffuse_intensity = 20; // 提升 1.5 倍的强度
+    light_diffuse[0] *= increased_diffuse_intensity;
+    light_diffuse[1] *= increased_diffuse_intensity;
+    light_diffuse[2] *= increased_diffuse_intensity;
+
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_direction);
+
+    // 新增前方光源
+    GLfloat front_light_position[] = { 0.0, 0.0, 10.0, 1.0 };   // 光源位置在前方
+    GLfloat front_light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };    // 光源散射光的颜色（白色）
+
+    // 调整光强度
+    GLfloat front_light_intensity = 50; // 调整光强度为原来的0.8倍
+    front_light_diffuse[0] *= front_light_intensity;
+    front_light_diffuse[1] *= front_light_intensity;
+    front_light_diffuse[2] *= front_light_intensity;
+
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, front_light_diffuse);
+    glLightfv(GL_LIGHT1, GL_POSITION, front_light_position);
+    glEnable(GL_LIGHT1);
+
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
-
     bgTexture = myTexture("background.jpg");
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    /// 璶方ㄓ弊よ
-    glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHTING);
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    /// 肂方ㄓいよ
-    glEnable(GL_LIGHT1);
-    GLfloat light1_position[] = { 0.0f, 10.0f, 0.0f, 1.0f }; /// いよ竚
-    GLfloat light1_diffuse[] = { 0.7f, 0.7f, 0.7f, 1.0f };   /// 肅︹diffuse
-    GLfloat light1_specular[] = { 0.9f, 0.9f, 0.9f, 1.0f };  /// 蔼肅︹specular
-
-    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-
     glutMainLoop();
+    return 0;
 }
-

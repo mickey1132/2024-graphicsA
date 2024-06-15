@@ -57,11 +57,14 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1718388730 source:c:\users\mic\desktop\2024-graphicsa\final\final\main.cpp
+1718432981 source:c:\users\mic\desktop\2024-graphicsa\final\final\main.cpp
 	<opencv/highgui.h>
 	<opencv/cv.h>
 	<GL/glut.h>
 	<stdio.h>
+	<iostream>
+	<fstream>
+	<vector>
 	<GL/glut.h>
 	"glm.h"
 
